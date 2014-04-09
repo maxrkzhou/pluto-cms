@@ -9,5 +9,6 @@ Version1.1
 1.Fix the warming message to display navigation menu
 2.Fix the warming message to create a new file
 
-
+Version1.2
+1.Fix the but can't delete folder with files
 

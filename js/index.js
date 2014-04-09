@@ -130,7 +130,7 @@ $(function(){
 			}},
             "delete": {name: "Delete", icon: "delete",callback: function(key, opt){
 				$( "#deleteBox" ).dialog({
-						 buttons: { "Ok": function() { deleteFiles(); $(this).dialog("close"); },
+						 buttons: { "Ok": function() { deleteFolders(); $(this).dialog("close"); },
 									"Cancel": function(){$(this).dialog("close");} 
 						} 
 					});
@@ -222,7 +222,25 @@ function deleteFiles(){
 	type: "GET",
 	url: "file.php",
 	data: {
-		action: "delete",
+		action: "deletefile",
+		dir: dir
+	},
+  	success:function(data){
+		//alert("LOL");
+		document.getElementById("feedback").innerHTML ="";
+		$("#feedback").append(data);
+		window.location.reload();
+  }});	
+	
+}
+
+function deleteFolders(){
+	var dir = $("#dir").val()+"/"+clickedFileName;
+	$.ajax({
+	type: "GET",
+	url: "file.php",
+	data: {
+		action: "deletefolder",
 		dir: dir
 	},
   	success:function(data){

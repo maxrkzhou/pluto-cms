@@ -18,11 +18,14 @@ if($action=="rename"&&$dir!=NULL&&$name!=NULL) {
 }
 
 
-if($action=="delete"&&$dir!=NULL){
+if($action=="deletefile"&&$dir!=NULL){
 	if(!unlink($dir)) echo"delete failed!";
 	else echo "Done!";
 }
 
+if($action=="deletefolder"&&$dir!=NULL){
+	deleteFolder($dir);
+}
 
 if($action=="copy"&&$sourceDir!=NULL&&$destDir!=NULL) {
 	if(!copy($sourceDir,$destDir)) echo"copy failed!";
@@ -51,5 +54,25 @@ if($action=='newfile'){
 		echo "Done!";
 	}
 	else echo "Create Failed";	
+}
+
+
+
+function deleteFolder($dir){
+	$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+	$files = new RecursiveIteratorIterator($it,
+             RecursiveIteratorIterator::CHILD_FIRST);
+	foreach($files as $file) {
+		if ($file->getFilename() === '.' || $file->getFilename() === '..') {
+			continue;
+		}
+		if ($file->isDir()){
+			rmdir($file->getRealPath());
+		} else {
+			unlink($file->getRealPath());
+		}
+	}
+	if(!rmdir($dir)) echo"delete failed!";
+	else echo "Done!";
 }
 ?>
